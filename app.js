@@ -17,6 +17,7 @@ var playerRoutes = require("./routes/players");
 var indexRoutes = require("./routes/index");
 
 var url = process.env.DATABASEURL || "mongodb://localhost:27017/cfc";
+//var url = "mongodb://localhost:27017/cfc";
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true});
 
 app.use(bodyParser.urlencoded({extended: true}));

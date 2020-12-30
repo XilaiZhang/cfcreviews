@@ -16,8 +16,9 @@ var commentRoutes = require("./routes/comments");
 var playerRoutes = require("./routes/players");
 var indexRoutes = require("./routes/index");
 
-mongoose.connect("mongodb+srv://xilaizhang:Xirich8@@cfc-cluster.vyjy5.mongodb.net/cfc?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true});
-//mongoose.connect("mongodb://localhost:27017/cfc", { useNewUrlParser: true, useUnifiedTopology: true});
+var url = process.env.DATABASEURL || "mongodb://localhost:27017/cfc";
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true});
+
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static( __dirname+"/public"));
 app.use('/exp', express.static(__dirname + '/node_modules/jquery-bar-rating/examples'));

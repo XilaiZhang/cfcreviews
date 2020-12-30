@@ -1,0 +1,43 @@
+<%- include('../partials/header') -%>
+<div class="container">
+    <h1 style="text-align: center;"> Edit <%= player.name %></h1>
+    <div style="width: 30%; margin: 25px auto;">
+        <form action="/players/<%= player._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <input class="form-control" type="text" name="player[name]" value="<%= player.name %>">
+            </div>
+            <div class="mb-3 form-group">
+                <div class="custom-file">
+                  <input type="file" name="image" accept="image/*" class="custom-file-input" id="anotherFile">
+                  <label class="custom-file-label" for="anotherFile"><%= player.filename %></label>
+                </div>
+              </div>
+              
+            <input type="hidden" name="player[filename]" id="editFileName" value="<%= player.filename %>">
+              
+            <div class="form-group">
+                <textarea class="form-control" type="text" name="player[description]" ><%= player.description %></textarea>
+            </div>
+             <div class="form-group">
+                 <button class="btn btn-lg btn-primary btn-block"> Submit!</button>
+            </div>
+        </form>
+        <a href="/players"> Go Back</a> 
+    </div>
+    
+</div>
+
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script>
+            $('#anotherFile').on('change',function(){
+                var fileName = $(this).val();
+                var cleanFileName = fileName.replace('C:\\fakepath\\', " ");
+                $(this).next('.custom-file-label').html(cleanFileName);
+                $('#editFileName').val(cleanFileName);
+            })
+        </script>
+    </body>
+</html>

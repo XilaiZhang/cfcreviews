@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> CFC review </title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="/css/fontawesome-free-5.15.1-web/css/all.css">
+        <link rel="stylesheet" type="text/css" href="/css/my.css" >
+        
+    </head>
+    <body>
+       <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+ 
+            <a class="navbar-brand" href="/"> cfcReviews</a>
+            
+            <button class="navbar-toggler text-center" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" 
+                aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                <span>
+                    <i class="fas fa-bars" style="color:#fff; font-size:28px;"></i>
+                </span>
+             </button>
+            
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active"><a class="nav-link" href="/players"><i class="fas fa-home"></i>Home</a></li>
+                </ul>
+                
+                <ul class="navbar-nav ml-auto">
+                    <form class="form-inline my-3 my-lg-0" action="/players" method="GET">
+                      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search">
+                      <button class="btn btn-success my-3 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+                    </form>
+                    <% if(!currentUser){ %>
+                        <li class="nav-item active"><a class="nav-link" href="/login"><i class="fas fa-sign-in-alt"></i>Login</a></li>
+                        <li class="nav-item active"><a class="nav-link" href="/register"><i class="fas fa-user-plus"></i>Signup</a></li>
+                    <% } else{ %>
+                        <li class="nav-item active"><a class="nav-link" href="#"><i class="fas fa-user-check"></i>Signed in as <%= currentUser.username %></a></li>
+                        <li class="nav-item active"><a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt"></i>Logout</a></li>
+                    <% } %>
+                </ul>
+            </div>
+
+        </nav> 
+        
+        <div class="container">
+            <% if( error && error.length > 0) { %>
+                <div class="alert alert-danger" role="alert">
+                    <%= error %>
+                </div>
+            <% } %>
+            <% if( success && success.length > 0) { %>
+                <div class="alert alert-success" role="alert">
+                    <%= success %>
+                </div>
+            <% } %>
+        </div>
+        

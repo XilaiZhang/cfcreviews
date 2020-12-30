@@ -1,0 +1,69 @@
+<%- include('../partials/header') -%>
+
+
+<header class="jumbotron jumbotron-fluid bg-cover text-white">
+        <div class="container jumbotron-text text-center">
+            <h1 class="display-4">Welcome to players page!</h1>
+            <p class="lead">This is a website that host comments for selected chelsea players. 
+            You can click on a player's photo and review comments submitted by other registered users, or</p>
+            <hr class="my-4">
+            <p>if your favorite player is not listed here, you can add a new player</p>
+            <a class="btn btn-primary btn-sm" href="/players/new" role="button">Add new player</a>
+        </div>
+        <!-- /.container   -->
+</header>
+
+<div class="dropdown ml-4">
+  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Sort by
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <form class="sortForm" action="/players" method="GET">
+        <input type="text" name="sortby" value="ratingLow" class="d-none">
+        <button type="submit" class="dropdown-item">user ratings from low to high</button>
+      </form>
+      <form class="sortForm" action="/players" method="GET">
+        <input type="text" name="sortby" value="ratingHigh" class="d-none">
+        <button type="submit" class="dropdown-item">user ratings from high to low</button>
+      </form>
+      <form class="sortForm" action="/players" method="GET">
+        <input type="text" name="sortby" value="nameLow" class="d-none">
+        <button type="submit" class="dropdown-item">player name A-Z</button>
+      </form>
+      <a href="/players" class="dropdown-item">Reset</a>
+  </div>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <h3>List of Players</h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <% players.forEach(function(player){ %>
+            <div class="col-md-3 col-sm-6">
+                <div class="card card-reveal shadow">
+                    <img class="card-img-top img-fluid" src="<%= player.image %>">
+                    <div class="card-body text-center">
+                        <h4 class="card-title text-capitalize">
+                            <%= player.name %>
+                        </h4>
+                        <p>
+                            <a href="/players/<%= player._id %>" class="btn btn-sm btn-primary">More info</a>
+                        </p>
+                    </div>
+                    
+                </div>
+            </div>
+        
+        <% }); %>
+    </div>
+
+
+
+</div>
+
+<%- include('../partials/footer') -%>

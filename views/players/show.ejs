@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> CFC review </title>
+        
+        <link rel="stylesheet" type="text/css" href="/css/fontawesome-free-5.15.1-web/css/all.css">
+        <link rel="stylesheet" href="/exp/css/normalize.min.css">
+        <link rel="stylesheet" href="/exp/css/main.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        
+        <link rel="stylesheet" type="text/css" href="/scripts/themes/fontawesome-stars-o.css">
+        <link rel="stylesheet" type="text/css" href="/css/my.css" >
+        
+    </head>
+    <body>
+       <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+ 
+            <a class="navbar-brand" href="/"> cfcReviews</a>
+            
+            <button class="navbar-toggler text-center" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" 
+                aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                <span>
+                    <i class="fas fa-bars" style="color:#fff; font-size:28px;"></i>
+                </span>
+             </button>
+            
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active"><a class="nav-link" href="/players"><i class="fas fa-home"></i>Home</a></li>
+                </ul>
+                
+                <ul class="navbar-nav ml-auto">
+                    <% if(!currentUser){ %>
+                        <li class="nav-item active"><a class="nav-link" href="/login"><i class="fas fa-sign-in-alt"></i>Login</a></li>
+                        <li class="nav-item active"><a class="nav-link" href="/register"><i class="fas fa-user-plus"></i>Signup</a></li>
+                    <% } else{ %>
+                        <li class="nav-item active"><a class="nav-link" href="#"><i class="fas fa-user-check"></i>Signed in as <%= currentUser.username %></a></li>
+                        <li class="nav-item active"><a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt"></i>Logout</a></li>
+                    <% } %>
+                </ul>
+            </div>
+
+        </nav> 
+        
+        <div class="container">
+            <% if( error && error.length > 0) { %>
+                <div class="alert alert-danger" role="alert">
+                    <%= error %>
+                </div>
+            <% } %>
+            <% if( success && success.length > 0) { %>
+                <div class="alert alert-success" role="alert">
+                    <%= success %>
+                </div>
+            <% } %>
+        </div>
+        
+<div class="container">
+    <div class="row">
+        <div class="col-12 text-center">
+          <div class="card shadow-sm mt-3">
+
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item" id="top-card">
+                    <form action="/players/<%= player._id %>/ratings" method="POST" class="mb-3" id="top-form">
+
+                      <div class="stars stars-example-fontawesome-o">
+                            <select id="example-fontawesome-o" name="rating" data-current-rating="<%= player.rating %>" autocomplete="off">
+                              <option value="" name="score"></option>
+                              <option value="1" name="score">1</option>
+                              <option value="2" name="score">2</option>
+                              <option value="3" name="score">3</option>
+                              <option value="4" name="score">4</option>
+                              <option value="5" name="score">5</option>
+                              <option value="6" name="score">6</option>
+                              <option value="7" name="score">7</option>
+                              <option value="8" name="score">8</option>
+                              <option value="9" name="score">9</option>
+                              <option value="10" name="score">10</option>
+                           </select>
+                            <% if(player.numRating === 0) { %>
+                                <span class="title current-rating">
+                                  No rating has been submitted for current player yet
+                                </span>
+                            <% } else { %>
+                                <span class="title current-rating">
+                                  average rating from all users: <span class="value"></span>
+                                </span>
+                            <% } %>
+                            <span class="title your-rating hidden">
+                              Your rating: <span class="value"></span>&nbsp;
+                              <a href="#" class="clear-rating"><i class="fa fa-times-circle"></i></a>
+                            </span>
+                            <input type="hidden" id="controlled-input" value="87" name="score">
+                            <button class="btn btn-success title your-rating hidden">Submit</button>
+                      </div>
+                    </form>
+                </li>
+              </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card shadow-sm mt-4">
+              <div class="card-header">
+                <i class="fas fa-eye"></i>number of views
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item text-capitalize">
+                  <%= player.views %>
+                </li>
+              </ul>
+            </div>
+            
+            <div class="card shadow-sm mt-3">
+              <div class="card-header">
+                <i class="far fa-comment-dots"></i>number of comments
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item text-capitalize">
+                  <%= player.comments.length %>
+                </li>
+              </ul>
+            </div>
+            
+            <div class="card shadow-sm mt-3">
+              <div class="card-header">
+                <i class="fas fa-futbol"></i>added by
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item text-capitalize">
+                  <%= player.author.username %>
+                </li>
+              </ul>
+            </div>
+            
+        </div>
+        
+        <div class="col-md-9">
+            <div class="card shadow player-detail">
+                <img class="card-img-top img-fluid player-img" src="<%= player.image %>">
+                <div class="card-body">
+                    <h4 class="card-title"><a><%= player.name %></a> </h4>
+                    <p><%= player.description %> </p>
+                    
+                    <% if(currentUser && player.author.id.equals(currentUser._id)){%>
+                        <a class="btn btn-sm btn-warning" href="/players/<%= player._id %>/edit">Edit</a>
+                        <form id="delete-form" action="/players/<%= player._id %>?_method=DELETE" method="POST">
+                            <button class="btn btn-sm btn-danger">Delete</button>
+                        </form>
+                    <% } %>
+                </div>
+            </div>
+            <div class="card card-body bg-light">
+                <div class="text-right">
+                    <a class="btn btn-success" href="/players/<%= player._id %>/comments/new"><i class="fas fa-comment-medical"></i> Add New Comment</a>
+                </div>
+                <hr>
+                <% player.comments.forEach(function(comment){ %>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <strong><%= comment.author.username %></strong>
+                            <span class="float-right">
+                                <%= comment.date %>
+                            </span>
+                            <p>
+                                <%= comment.text %>
+                            </p>
+
+                        <% if(currentUser && comment.author.id.equals(currentUser._id)){%>
+                            <a class="btn btn-sm btn-warning" 
+                                href="/players/<%= player._id %>/comments/<%=comment._id%>/edit">edit 
+                            </a>
+                            <form id="delete-form" action="/players/<%= player._id %>/comments/<%=comment._id%>?_method=DELETE" method="POST">
+                                <button class="btn btn-sm btn-danger">delete</button>
+                            </form>
+                        <% } %>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script src="/scripts/jquery.barrating.min.js"></script>
+        <script src="/exp/js/examples.js"></script>
+             
+    </body>
+</html>
